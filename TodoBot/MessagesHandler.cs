@@ -66,6 +66,7 @@ namespace Telegram.Bot.Examples.Echo
         double amount = 0.0;
         MessgesStatus status;
         string expanseTitle;
+        string productName;
         Expense expense;
         public Message(long id)
         {
@@ -115,56 +116,43 @@ namespace Telegram.Bot.Examples.Echo
                     switch (msg)
                     {
                         case "הוסף":
-                            status = MessgesStatus.AddGroceryList;
-                            ReplyKeyboardMarkup ReplyGroceryKeyboardDefult = new[]
-     {
-                        new[] { "סיום" },
-                   };
-                            bot.SendTextMessageAsync(
-                   msgId,
-                    "רשום את המוצרים אחד אחד" +
-                    "לסיום לחץ על סיום או רשום סיום",
-                    replyMarkup: ReplyGroceryKeyboardDefult);
+                            {
+                                status = MessgesStatus.AddGroceryList;
+                                var types = GroceryList.Instance.Getproducts().ToArray();
+                                List<string[]> list = new List<string[]>();
+                                var completeRow = types.Length / 3;
+                                var restRow = types.Length % 3;
+                                list.Add(new[] { "סיום" });
+                                for (int i = 0; i < completeRow; i++)
+                                {
+                                    list.Add(new[] { types[(i)], types[(i) + 1], types[(i) + 2] });
+                                }
+                                if (restRow == 1)
+                                {
+                                    list.Add(new[] { types[(completeRow * 3)] });
+                                }
+                                if (restRow == 2)
+                                {
+                                    list.Add(new[] { types[(completeRow * 3)], types[(completeRow * 3) + 1] });
+                                }
+                                ReplyKeyboardMarkup ReplyGroceryKeyboardDefult = list.ToArray();
+                                bot.SendTextMessageAsync(
+                       msgId,
+                        "בחר את אחד מהמוצרים ברשימה" +
+                        "לסיום לחץ על סיום או רשום סיום",
+                        replyMarkup: ReplyGroceryKeyboardDefult);
+                            }
                             break;
                         case "הסר":
                             status = MessgesStatus.DeleteGroceryList;
                             break;
                         case "הצג":
-                            var types = GroceryList.Instance.GetList().ToArray();
-                            List<string[]> list = new List<string[]>();
-                            var completeRow = types.Length / 3;
-                            var restRow = types.Length % 3;
-                            for (int i = 0; i < completeRow; i++)
                             {
-                                list.Add(new[] { types[(i)], types[(i) + 1], types[(i) + 2] });
-                            }
-                            if (restRow == 1)
-                            {
-                                list.Add(new[] { types[(completeRow * 3)] });
-                            }
-                            if (restRow == 2)
-                            {
-                                list.Add(new[] { types[(completeRow * 3)], types[(completeRow * 3) + 1] });
-                            }
-                            list.Add(new[] { "סיום" });
-                            ReplyKeyboardMarkup ReplyKeyboardnewExpans = list.ToArray();
-                            bot.SendTextMessageAsync(
-                            msgId,
-                             "לחץ על אחד המוצרים כדי לסמן שנקרא או ע סיום לחזרה לתפריט",
-                              replyMarkup: ReplyKeyboardnewExpans);
-                            break;
-                        case "סיום":
-                            status = MessgesStatus.Begining;
-                            HandleBeginingMessage("?", bot);
-                            break;
-                        default:
-                            if (GroceryList.Instance.GetList().Contains(msg))
-                            {
-                                GroceryList.Instance.Remove(msg);
-                                types = GroceryList.Instance.GetList().ToArray();
-                                list = new List<string[]>();
-                                completeRow = types.Length / 3;
-                                restRow = types.Length % 3;
+                                status = MessgesStatus.DeleteGroceryList;
+                                var types = GroceryList.Instance.GetList().ToArray();
+                                List<string[]> list = new List<string[]>();
+                                var completeRow = types.Length / 3;
+                                var restRow = types.Length % 3;
                                 for (int i = 0; i < completeRow; i++)
                                 {
                                     list.Add(new[] { types[(i)], types[(i) + 1], types[(i) + 2] });
@@ -178,11 +166,46 @@ namespace Telegram.Bot.Examples.Echo
                                     list.Add(new[] { types[(completeRow * 3)], types[(completeRow * 3) + 1] });
                                 }
                                 list.Add(new[] { "סיום" });
-                                ReplyKeyboardMarkup ReplyKeyboardProductsnewExpans = list.ToArray();
+                                ReplyKeyboardMarkup ReplyKeyboardnewExpans = list.ToArray();
                                 bot.SendTextMessageAsync(
-msgId,
-$"{msg} הוסר בהצלחה",
-replyMarkup: ReplyKeyboardProductsnewExpans);
+                                msgId,
+                                 "לחץ על אחד המוצרים כדי לסמן שנקרא או ע סיום לחזרה לתפריט",
+                                  replyMarkup: ReplyKeyboardnewExpans);
+                                break;
+                            }
+                        case "סיום":
+                            status = MessgesStatus.Begining;
+                            HandleBeginingMessage("?", bot);
+                            break;
+                        default:
+                            {
+
+                                if (GroceryList.Instance.GetList().Contains(msg))
+                                {
+                                    GroceryList.Instance.Remove(msg);
+                                    var types = GroceryList.Instance.GetList().ToArray();
+                                    var list = new List<string[]>();
+                                    var completeRow = types.Length / 3;
+                                    var restRow = types.Length % 3;
+                                    for (int i = 0; i < completeRow; i++)
+                                    {
+                                        list.Add(new[] { types[(i)], types[(i) + 1], types[(i) + 2] });
+                                    }
+                                    if (restRow == 1)
+                                    {
+                                        list.Add(new[] { types[(completeRow * 3)] });
+                                    }
+                                    if (restRow == 2)
+                                    {
+                                        list.Add(new[] { types[(completeRow * 3)], types[(completeRow * 3) + 1] });
+                                    }
+                                    list.Add(new[] { "סיום" });
+                                    ReplyKeyboardMarkup ReplyKeyboardProductsnewExpans = list.ToArray();
+                                    bot.SendTextMessageAsync(
+                                    msgId,
+                                    $"{msg} הוסר בהצלחה",
+                                    replyMarkup: ReplyKeyboardProductsnewExpans);
+                                }
                             }
                             break;
                     }
@@ -193,14 +216,68 @@ replyMarkup: ReplyKeyboardProductsnewExpans);
                         HandleBeginingMessage("רשימת קניות", bot);
                         return;
                     }
-                    GroceryList.Instance.Add(msg);
-                    bot.SendTextMessageAsync(
-msgId,
-$"{msg} נוסף בהצלחה",
- replyMarkup: new ReplyKeyboardRemove());
+                    else
+                    {
+                        int quntety = 0;
+                        if (int.TryParse(msg, out quntety))
+                        {
+                            productName = $"{msg}-{productName}";
+                            GroceryList.Instance.Add(productName);
+                            bot.SendTextMessageAsync(
+        msgId,
+        $"{productName} נוסף בהצלחה",
+         replyMarkup: new ReplyKeyboardRemove());
+                            status = MessgesStatus.GroceryList;
+                            HandleGroceryListMessage("הוסף", bot);
+
+                        }
+                        else
+                        {
+                            productName = msg;
+                            ReplyKeyboardMarkup ReplyKeyboardProductsnewExpans = new[] {
+                                    new[] { "7","8","9" },
+                                    new[] { "4","5","6"},
+                                    new[] {"1","2","3"}};
+                            bot.SendTextMessageAsync(
+                            msgId,
+                            "הכנס כמות",
+                            replyMarkup: ReplyKeyboardProductsnewExpans);
+                        }
+                    }
                     break;
                 case MessgesStatus.DeleteGroceryList:
-                    GroceryList.Instance.Remove(msg);
+                    if (msg == "סיום")
+                    {
+                        HandleBeginingMessage("רשימת קניות", bot);
+                        return;
+                    }
+
+                    if (GroceryList.Instance.GetList().Contains(msg))
+                    {
+                        GroceryList.Instance.Remove(msg);
+                        var types = GroceryList.Instance.GetList().ToArray();
+                        var list = new List<string[]>();
+                        var completeRow = types.Length / 3;
+                        var restRow = types.Length % 3;
+                        for (int i = 0; i < completeRow; i++)
+                        {
+                            list.Add(new[] { types[(i)], types[(i) + 1], types[(i) + 2] });
+                        }
+                        if (restRow == 1)
+                        {
+                            list.Add(new[] { types[(completeRow * 3)] });
+                        }
+                        if (restRow == 2)
+                        {
+                            list.Add(new[] { types[(completeRow * 3)], types[(completeRow * 3) + 1] });
+                        }
+                        list.Add(new[] { "סיום" });
+                        ReplyKeyboardMarkup ReplyKeyboardProductsnewExpans = list.ToArray();
+                        bot.SendTextMessageAsync(
+                        msgId,
+                        $"{msg} הוסר בהצלחה",
+                        replyMarkup: ReplyKeyboardProductsnewExpans);
+                    }
                     break;
                 default:
                     break;

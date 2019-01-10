@@ -195,5 +195,10 @@ namespace Telegram.Bot.Examples.Echo
             _list.Sort();
             return _list;
         }
+        public List<string> Getproducts()
+        {
+            _products.Sort();
+            return _products;
+        }
     }
 }

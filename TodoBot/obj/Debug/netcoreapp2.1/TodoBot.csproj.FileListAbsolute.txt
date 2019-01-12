@@ -9,3 +9,14 @@ C:\Users\tc34905\source\repos\TodoBot\TodoBot\bin\Debug\netcoreapp2.1\TodoBot.pd
 C:\Users\tc34905\source\repos\TodoBot\TodoBot\obj\Debug\netcoreapp2.1\TodoBot.dll
 C:\Users\tc34905\source\repos\TodoBot\TodoBot\obj\Debug\netcoreapp2.1\TodoBot.pdb
 C:\Users\tc34905\source\repos\TodoBot\TodoBot\obj\Debug\netcoreapp2.1\TodoBot.csprojAssemblyReference.cache
+D:\progects\TodoBot\TodoBot\bin\Debug\netcoreapp2.1\TodoBot.deps.json
+D:\progects\TodoBot\TodoBot\bin\Debug\netcoreapp2.1\TodoBot.runtimeconfig.json
+D:\progects\TodoBot\TodoBot\bin\Debug\netcoreapp2.1\TodoBot.runtimeconfig.dev.json
+D:\progects\TodoBot\TodoBot\bin\Debug\netcoreapp2.1\TodoBot.dll
+D:\progects\TodoBot\TodoBot\bin\Debug\netcoreapp2.1\TodoBot.pdb
+D:\progects\TodoBot\TodoBot\obj\Debug\netcoreapp2.1\TodoBot.csprojResolveAssemblyReference.cache
+D:\progects\TodoBot\TodoBot\obj\Debug\netcoreapp2.1\TodoBot.csproj.CoreCompileInputs.cache
+D:\progects\TodoBot\TodoBot\obj\Debug\netcoreapp2.1\TodoBot.AssemblyInfoInputs.cache
+D:\progects\TodoBot\TodoBot\obj\Debug\netcoreapp2.1\TodoBot.AssemblyInfo.cs
+D:\progects\TodoBot\TodoBot\obj\Debug\netcoreapp2.1\TodoBot.dll
+D:\progects\TodoBot\TodoBot\obj\Debug\netcoreapp2.1\TodoBot.pdb

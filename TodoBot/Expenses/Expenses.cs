@@ -40,7 +40,7 @@ namespace Telegram.Bot.Examples.Echo
             _types.Add("אירוע");
             _types.Add("הצגות ומופעים");
         }
-        private void LoadExpenses()
+        public void LoadExpenses()
         {
             var content = File.ReadAllLines("./Files/expanses.csv");
             foreach(var line in content)
@@ -73,11 +73,6 @@ namespace Telegram.Bot.Examples.Echo
                 strToret += $"{ex.ToString()}\r\n";
             }
             return strToret;
-        }
-
-        void IExpenses.LoadExpenses()
-        {
-            throw new NotImplementedException();
         }
     }
  
